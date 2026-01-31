@@ -1,0 +1,220 @@
+@media (max-width: 767px) {
+	.left-abs-menu {
+		display: none;
+	}
+	.left-abs-menu-page .card-body {
+		padding: 40px 20px;
+	}
+	.left-abs-menu-page .d-flex {
+	    display: flex !important;
+	}
+	.left-sidebar {
+		right: 0;
+		display: none;
+	}
+	.topbar .top-navbar {
+		padding: 15px;
+	}
+	.skin-default .topbar .top-navbar .navbar-header .navbar-brand .light-logo {
+		max-height: 120px;
+	}
+}
+@media (min-width: 768px) {
+	.left-abs-menu-page .home-banner .card-body {
+		width: 100%;
+		color: #fff;
+	}
+	.navbar-expand-md .navbar-collapse {
+		display: none !important;
+	}
+}
+@media (min-width: 1100px) {
+	.left-abs-menu-page .home-banner .card-body {
+		width: 70%;
+		color: #fff;
+	}
+}
+.skin-default .topbar {
+	background: #fff;
+}
+.left-sidebar {
+	box-shadow: none;
+	border-bottom: 3px solid #00a1e0;
+}
+.horizontal-nav .sidebar-nav #sidebarnav > li > a {
+	padding: 5px 15px;
+}
+.horizontal-nav .sidebar-nav {
+	display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+	background: #215ca0;
+}
+.sidebar-nav ul li a.btn-nav, .btn-success, .btn-theme {
+	color: #fff;
+    background-color: #278806;
+    text-transform: uppercase;
+    transition: background-color .3s ease;
+    padding: 0 15px;
+    font-size: 14px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 150px;
+}
+.btn-theme {
+	background-color: #215ca0;
+	color: #fff !important;
+	border: 0;
+}
+.btn-theme:hover {
+	color: #fff;
+    background-color: #1c4e88;
+}
+.btn-success {
+	border-color: #248404;
+	border: 0;
+}
+.sidebar-nav > ul > li > a {
+	color: #fff;
+}
+.sidebar-nav > ul > li.active > a {
+	color: #fff;
+	border: unset;
+	font-weight: unset;
+}
+img {
+	max-width: 100%;
+}
+.left-abs-menu-page .card-body {
+	padding: 5% 2% 0 420px;
+	width: 70%;
+	position: relative;
+}
+.left-abs-menu-page .home-banner .card-body {
+	width: 100%;
+	color: #fff;
+}
+.home-banner .bg-image{
+	background-image: url("../images/home-banner.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	filter: blur(3px);
+  	-webkit-filter: blur(3px);
+}
+.btn-lg+.btn-lg {
+	margin-left: 15px;
+}
+.left-abs-menu {
+	position: absolute;
+	left: 100px;
+	top: 0;
+	background: rgba(250, 250, 250, 0.9);
+	height: 100%;
+	width: 250px;
+	z-index: 1;
+	padding: 80px 30px;
+}
+.no-list-h {
+	list-style: none;
+}
+.no-list-h li {
+	margin-bottom: 15px;
+}
+.pl-15 {
+	padding-left: 15px !important;
+}
+.pl-30 {
+	padding-left: 30px !important;
+}
+.px-0 {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+.px-15 {
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+}
+.px-30 {
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.my-15 {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+.list-tick {
+	list-style: none;
+    padding-left: 35px;
+}
+.list-tick li {
+	position: relative;
+	margin-bottom: 15px;
+}
+.list-tick li:before {
+	content: "";
+	position: absolute;
+	left: -50px;
+	top: -5px;
+	height: 25px;
+	width: 35px;
+	background-image: url(../images/green-checkmark-forms.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.error-msg {
+	display: none;
+}
+.d-flex-wrap {
+    display: flex !important;
+    flex-wrap: wrap;
+}
+.d-flex-y-center {
+	display: flex;
+    align-items: center;
+}
+form input.form-control, form select.form-control {
+	color: gray;
+}
+form label {
+    margin-bottom: 0;
+    margin-top: 8px;
+    color: gray;
+}
+a {
+    color: #215ca0;
+}
+.signup-form-sec {
+	background: #f6f9fd;
+    padding: 25px;
+}
+.navbar-collapse {
+	display: none;
+}
+.diamond-signup h1 {
+	font-size: 1.95rem;
+    margin-bottom: 15px;
+}
+.diamond-signup label {
+	display: none;
+}
+.diamond-signup .section {
+	margin-bottom: 15px;
+}
+.d-flex .field-container-50 {
+	width: 50%;
+}
+.px-15 {
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+}

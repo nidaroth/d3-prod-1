@@ -1,0 +1,115 @@
+<? require_once("../global/config.php");
+if($_SESSION['PK_LANGUAGE'] == 1){
+	//English
+	define("TAB_INFO", "Info");
+	define("TAB_CONTACT", "Contacts");
+	define("JOB_CONTACT", "Jobs");
+	define("EVENT_CONTACT", "Events");
+	define("QUEST_CONTACT", "Questionnaire");
+	define("COMPANY_PAGE_TITLE", "Company");
+	define("COMPANY_NAME", "Company Name");
+	define("STREET_ADDRESS", "Street Address");
+	define("CITY", "City");
+	define("STATE", "State");
+	define("OPEN_JOBS", "Open Jobs");
+	define("TOTAL_JOBS", "Total Jobs");
+	define("PLACEMENT_TYPE", "Type");
+	define("PLACEMENT_COMPANY_STATUS", "Status");
+	define("PLACEMENT_COMPANY_QUESTIONNAIRE", "Questionnaire Group");
+	define("COMPANY_ADVISOR", "School Employee");
+	define("MAIN_CONTACT", "Main Company Contact");
+	define("DEPARTMENT", "Department");
+	define("NOTES", "Notes");
+	define("JOB_NUMBER", "Job Number");
+	define("JOB_TITLE", "Job Title");
+	define("JOB_TYPE", "Job Type");
+	define("CONTACT", "Company Contact");
+	define("ADVISOR", "Advisor");
+	define("EVENT_TYPE", "Event Type");
+	define("EVENT_DATE", "Event Date");
+	define("FOLLOW_UP_DATE", "Follow Up Date");
+	define("EMPLOYEE", "Employee");
+	define("QUESTIONS", "Question");
+	define("ANSWER", "Answer");
+	define("EMPLOYMENT", "Employment");
+	define("TITLE", "Title");
+	define("PAY_AMOUNT", "Pay Amount");
+	define("FULL_PART_TIME", "Full/Part Time");
+	define("JOB_POSTED", "Job Posted");
+	define("JOB_FILLED", "Job Filled");
+	define("JOB_CANCELED", "Job Canceled");
+	define("OPEN_JOB", "Open Job");
+	define("MAIN_CONTACT_1", "Main Contact");
+	
+	define("COMPANIES_WITH_OPEN_JOBS", "Companies with Open Jobs");
+	define("COMPANIES_WITHOUT_OPEN_JOBS", "Companies without Open Jobs");
+	define("BOTH", "Both");
+	define("COMPANIES_WITH_WITHOUT_OPEN_JOBS", "Companies with/without Open Jobs");
+	
+	define("ACTIVE_COMPANY", "Active Company");
+	define("INACTIVE_COMPANY", "Inactive Company");
+	define("ACTIVE_INACTIVE_COMPANY", "Active/Inactive Company");
+	define("ACTIVE_COMPANIES", "Active Companies");
+	define("INACTIVE_COMPANIES", "Inactive Companies");
+	
+	define("DATE_CREATED", "Date Created");
+	define("COMPANY_SOURCE", "Company Source");
+	
+} else if($_SESSION['PK_LANGUAGE'] == 2){
+	//Spanish
+	define("TAB_INFO", "Info");
+	define("TAB_CONTACT", "Contacts");
+	define("JOB_CONTACT", "Jobs");
+	define("EVENT_CONTACT", "Events");
+	define("QUEST_CONTACT", "Questionnaire");
+	define("COMPANY_PAGE_TITLE", "Company Name");
+	define("COMPANY_NAME", "Company");
+	define("STREET_ADDRESS", "Street Address");
+	define("CITY", "City");
+	define("STATE", "State");
+	define("OPEN_JOBS", "Open Jobs");
+	define("TOTAL_JOBS", "Total Jobs");
+	define("PLACEMENT_TYPE", "Type");
+	define("PLACEMENT_COMPANY_STATUS", "Status");
+	define("PLACEMENT_COMPANY_QUESTIONNAIRE", "Questionnaire Group");
+	define("COMPANY_ADVISOR", "School Employee");
+	define("MAIN_CONTACT", "Main Company Contact");
+	define("DEPARTMENT", "Department");
+	define("NOTES", "Notes");
+	define("JOB_NUMBER", "Job Number");
+	define("JOB_TITLE", "Job Title");
+	define("JOB_TYPE", "Job Type");
+	define("CONTACT", "Contact");
+	define("ADVISOR", "Advisor");
+	define("EVENT_TYPE", "Event Type");
+	define("EVENT_DATE", "Event Date");
+	define("FOLLOW_UP_DATE", "Follow Up Date");
+	define("EMPLOYEE", "Employee");
+	define("EVENT_TYPE", "Event Type");
+	define("EVENT_DATE", "Event Date");
+	define("FOLLOW_UP_DATE", "Follow Up Date");
+	define("EMPLOYEE", "Employee");
+	define("QUESTIONS", "Question");
+	define("ANSWER", "Answer");
+	define("EMPLOYMENT", "Employment");
+	define("TITLE", "Title");
+	define("PAY_AMOUNT", "Pay Amount");
+	define("FULL_PART_TIME", "Full/Part Time");
+	define("JOB_POSTED", "Job Posted");
+	define("JOB_FILLED", "Job Filled");
+	define("JOB_CANCELED", "Job Canceled");
+	define("OPEN_JOB", "Open Job");
+	define("MAIN_CONTACT_1", "Main Contact");
+	
+	define("COMPANIES_WITH_OPEN_JOBS", "Companies with Open Jobs");
+	define("COMPANIES_WITHOUT_OPEN_JOBS", "Companies without Open Jobs");
+	define("BOTH", "Both");
+	define("COMPANIES_WITH_WITHOUT_OPEN_JOBS", "Companies with/without Open Jobs");
+	define("ACTIVE_COMPANY", "Active Company");
+	define("INACTIVE_COMPANY", "Inactive Company");
+	define("ACTIVE_INACTIVE_COMPANY", "Active/Inactive Company");
+	define("ACTIVE_COMPANIES", "Active Companies");
+	define("INACTIVE_COMPANIES", "Inactive Companies");
+	define("DATE_CREATED", "Date Created");
+	define("COMPANY_SOURCE", "Company Source");
+}

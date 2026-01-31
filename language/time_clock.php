@@ -1,0 +1,64 @@
+<? require_once("../global/config.php");
+if($_SESSION['PK_LANGUAGE'] == 1){
+	//English
+	define("TIME_CLOCK_IMPORT", "Attendance - Import");
+	define("POST", "Post");
+	define("IMPORT_RESULT", "Import Result");
+	define("STUDENT_ID", "Student ID");
+	define("BATCH_ID", "Badge ID");
+	define("BADGE_ID", "Badge ID");
+	define("TIME_CLOCK_IMPORT_RESULT", "Attendance - Import Result");
+	define("DATE", "Date");
+	define("IN", "In");
+	define("OUT", "Out");
+	define("HOURS", "Hours");
+	define("IN_TIME", "In Time");
+	define("OUT_TIME", "Out Time");
+	define("BREAK_IN_MIN", "Break(Minutes)");
+	define("ATTENDANCE_HOUR", "Attended Hours");
+	define("COURSE_OFFERING", "Course Offering");
+	define("ATTENDANCE_CODE", "Attendance Code");
+	define("EXCLUDE_FIRST_ROW", "Exclude first row from Import");
+	define("SELECT_AT_LEAST_ONE_RECORD", "Please Select At Least One Record");
+	define("IMPORT_OPTIONS", "Import Options");
+	define("DELETE_SELECTED_RECORDS", "Delete Selected Records");
+	define("POST_AS_SCHEDULED", "Post as Scheduled");
+	define("POST_AS_NON_SCHEDULED", "Post as Non-Scheduled");
+	define("FILE_NAME", "File Name");
+	define("UPLOADED_BY", "Uploaded By");
+	define("UPLOADED_ON", "Uploaded On");
+	define("IMPORTED_COUNT", "Imported Count");
+	define("TOTAL_COUNT", "Total Count");
+	define("SCHEDULED", "Scheduled");
+} else if($_SESSION['PK_LANGUAGE'] == 2){
+	//Spanish
+	define("TIME_CLOCK_IMPORT", "Attendance - Import");
+	define("POST", "Post");
+	define("IMPORT_RESULT", "Import Result");
+	define("STUDENT_ID", "Student ID");
+	define("BATCH_ID", "Badge ID");
+	define("BADGE_ID", "Badge ID");
+	define("TIME_CLOCK_IMPORT_RESULT", "Attendance - Import Result");
+	define("DATE", "Date");
+	define("IN", "In");
+	define("OUT", "Out");
+	define("HOURS", "Hours");
+	define("IN_TIME", "In Time");
+	define("OUT_TIME", "Out Time");
+	define("BREAK_IN_MIN", "Break(Minutes)");
+	define("ATTENDANCE_HOUR", "Attended Hours");
+	define("COURSE_OFFERING", "Course Offering");
+	define("ATTENDANCE_CODE", "Attendance Code");
+	define("EXCLUDE_FIRST_ROW", "Exclude first row from Import");
+	define("SELECT_AT_LEAST_ONE_RECORD", "Please Select At Least One Record");
+	define("IMPORT_OPTIONS", "Import Options");
+	define("DELETE_SELECTED_RECORDS", "Delete Selected Records");
+	define("POST_AS_SCHEDULED", "Post as Scheduled");
+	define("POST_AS_NON_SCHEDULED", "Post as Non-Scheduled");
+	define("FILE_NAME", "File Name");
+	define("UPLOADED_BY", "Uploaded By");
+	define("UPLOADED_ON", "Uploaded On");
+	define("IMPORTED_COUNT", "Imported Count");
+	define("TOTAL_COUNT", "Total Count");
+	define("SCHEDULED", "Scheduled");
+}

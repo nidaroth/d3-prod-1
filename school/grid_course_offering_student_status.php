@@ -1,0 +1,49 @@
+<? require_once("../global/config.php"); 
+require_once("../language/common.php");
+require_once("check_access.php");
+
+if(check_access('SETUP_REGISTRAR') == 0 ){
+	header("location:../index");
+	exit;
+}
+
+$page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+$rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+$sort = isset($_POST['sort']) ? strval($_POST['sort']) : 'COURSE_OFFERING_STUDENT_STATUS';  
+$order = isset($_POST['order']) ? strval($_POST['order']) : 'ASC';
+				
+$SEARCH = isset($_REQUEST['SEARCH']) ? mysql_real_escape_string($_REQUEST['SEARCH']) : '';
+$offset = ($page-1)*$rows;
+	
+$result = array();
+$where = " PK_ACCOUNT = '$_SESSION[PK_ACCOUNT]'  ";
+	
+if($SEARCH != '')
+	$where .= " AND (COURSE_OFFERING_STUDENT_STATUS  like '%$SEARCH%' OR DESCRIPTION like '%$SEARCH%' )";
+
+$rs = mysql_query("SELECT DISTINCT(PK_COURSE_OFFERING_STUDENT_STATUS) FROM M_COURSE_OFFERING_STUDENT_STATUS WHERE " . $where. " ")or die(mysql_error());
+$row = mysql_fetch_row($rs);
+$result["total"] = mysql_num_rows($rs);
+	
+$query = "SELECT PK_COURSE_OFFERING_STUDENT_STATUS,PK_COURSE_OFFERING_STUDENT_STATUS_MASTER,COURSE_OFFERING_STUDENT_STATUS,DESCRIPTION ,IF(MAKE_AS_DEFAULT = 1,'Yes','No') AS MAKE_AS_DEFAULT ,IF(POST_TUITION = 1,'Yes','No') AS POST_TUITION,IF(SHOW_ON_TRANSCRIPT = 1,'Yes','No') AS SHOW_ON_TRANSCRIPT ,IF(SHOW_ON_REPORT_CARD = 1,'Yes','No') AS SHOW_ON_REPORT_CARD ,IF(CALCULATE_SAP = 1,'Yes','No') AS CALCULATE_SAP, IF(ACTIVE = 1,'<i class=\'fa fa-square round_green icon_size_active\' ></i>','<i class=\'fa fa-square round_red icon_size_active\' ></i>') AS ACTIVE FROM M_COURSE_OFFERING_STUDENT_STATUS WHERE " . $where ." order by $sort $order " ;
+// echo $query;exit;	
+$rs = mysql_query($query. " limit $offset,$rows")or die(mysql_error());	
+	
+$items = array();
+while($row = mysql_fetch_array($rs)){
+
+	$str  = '&nbsp;<a href="course_offering_student_status?id='.$row['PK_COURSE_OFFERING_STUDENT_STATUS'].'" title="'.EDIT.'" class="btn edit-color btn-circle"><i class="far fa-edit"></i> </a>';
+	
+	$res_check1 = $db->Execute("select PK_STUDENT_COURSE from S_STUDENT_COURSE WHERE PK_ACCOUNT = '$_SESSION[PK_ACCOUNT]' AND PK_COURSE_OFFERING_STUDENT_STATUS = '$row[PK_COURSE_OFFERING_STUDENT_STATUS]' ");
+	$res_check2 = $db->Execute("select PK_STUDENT_FINAL_GRADE from S_STUDENT_FINAL_GRADE WHERE PK_ACCOUNT = '$_SESSION[PK_ACCOUNT]' AND PK_COURSE_OFFERING_STUDENT_STATUS = '$row[PK_COURSE_OFFERING_STUDENT_STATUS]' ");
+	$res_check3 = $db->Execute("select PK_STUDENT_PROGRAM_GRADE from S_STUDENT_PROGRAM_GRADE WHERE PK_ACCOUNT = '$_SESSION[PK_ACCOUNT]' AND PK_COURSE_OFFERING_STUDENT_STATUS = '$row[PK_COURSE_OFFERING_STUDENT_STATUS]' ");
+
+	if($res_check1->RecordCount() == 0 && $res_check2->RecordCount() == 0 && $res_check3->RecordCount() == 0 && $row['PK_COURSE_OFFERING_STUDENT_STATUS_MASTER'] == 0)
+		$str .= '&nbsp;<a href="javascript:void(0);" onclick="delete_row('.$row['PK_COURSE_OFFERING_STUDENT_STATUS'].')" title="'.DELETE.'" class="btn delete-color btn-circle"><i class="far fa-trash-alt"></i></a>';
+
+	$row['ACTION'] = $row['ACTIVE'].$str;
+	
+	array_push($items, $row);
+}
+$result["rows"] = $items;
+echo json_encode($result);

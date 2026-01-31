@@ -1,0 +1,90 @@
+   
+  pmid = 34129411
+  Private Function Get_PMID_Data(pmid) As Object
+        Dim i As Integer = 0
+        Dim myEncoder As New System.Text.UTF8Encoding
+        Dim value As String = "1"
+        Dim articleTitle As String = ""
+        Dim abstractText As String = ""
+        Dim url As String = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=" + pmid + "&retmode=xml"
+        Dim pubXML As String = ""
+
+        Dim MyData As String
+        Try
+            Using WC As New System.Net.WebClient()
+                MyData = WC.DownloadString(url)
+                MyData = MyData.Substring(MyData.IndexOf(">") + 1)
+                MyData = MyData.Substring(MyData.IndexOf(">") + 1)
+                MyData = MyData.Substring(MyData.IndexOf("<"))
+
+
+
+                Using reader As XmlReader = XmlReader.Create(New StringReader(MyData))
+
+                    While (reader.Read())
+                        '   While (reader.MoveToNextAttribute())
+                        Dim line As String = reader.Name
+                        Select Case True
+                            Case line.Contains("PMID")
+                                reader.Read()
+                                pmid = reader.Value
+                            Case line.Contains("ArticleTitle")
+                                reader.Read()
+                                articleTitle = reader.Value
+                            Case line.Contains("AbstractText")
+                                '  reader.Read()
+                                abstractText += reader.Value
+
+                        End Select
+                        ' End While
+                    End While
+
+
+                    '        While reader.ReadToFollowing("PubmedArticle") 'Read till citation
+                    '            pubXML = reader.ReadOuterXml()
+
+
+
+
+                    '            Dim bytes As Byte() = myEncoder.GetBytes(pubXML)
+                    '            Dim ms As MemoryStream = New MemoryStream(bytes)
+                    '            Dim stream_reader As New StreamReader(ms)
+                    '            While stream_reader.Peek() >= 0
+                    '                Dim line As String = stream_reader.ReadLine()
+                    '                Select Case True
+                    '                    Case line.Contains("<PMID Version")
+                    '                        pmid = Strip_Line(line)
+                    '                    Case line.Contains("<ArticleTitle")
+                    '                        articleTitle = Strip_Line(line)
+                    '                    Case line.Contains("<AbstractText")
+                    '                        If line.Contains("BACKGROUND") Then
+                    '                            abstractText += "BACKGROUND: " + Strip_Line(line) + "<br>"
+                    '                        ElseIf line.Contains("METHODS") Then
+                    '                            abstractText += "METHODS: " + Strip_Line(line) + "<br>"
+                    '                        ElseIf line.Contains("RESULTS") Then
+                    '                            abstractText += "RESULTS: " + Strip_Line(line) + "<br>"
+                    '                        ElseIf line.Contains("CONCLUSIONS") Then
+                    '                            abstractText += "CONCLUSIONS: " + Strip_Line(line) + "<br>"
+
+                    '                        ElseIf line.Contains("UNASSIGNED") Then
+                    '                            abstractText += "UNASSIGNED: " + Strip_Line(line) + "<br>"
+                    '                        Else
+                    '                            abstractText += "ABSTRACT: " + Strip_Line(line)
+
+
+                    '                        End If
+                    '                    Case line.Contains("</Abstract>")
+                    '                        Exit While
+                    '                End Select
+                    '            End While
+                    '        End While
+                End Using
+            End Using
+        Catch ex As Exception
+            articleTitle = ex.Message
+            'Error downloading
+        End Try
+        ' Return {pmid, articleTitle, abstractText}
+        Return {pmid, articleTitle, abstractText}
+
+    End Function

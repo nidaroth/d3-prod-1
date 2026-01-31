@@ -1,0 +1,186 @@
+/*.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}*/
+@media(min-width: 768px) {
+    .col-sm-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    .col-sm-4 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+
+    .col-sm-6 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+table .btn-circle {
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.theme-h-border {
+    border-bottom: 5px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.theme-v-border {
+    border-left: 5px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.pt-25 {
+    padding-top: 25px;
+}
+
+.submit-button-sec input,
+.submit-button-sec button {
+    margin-left: 15px;
+}
+
+.hover-not-allowed {
+    cursor: not-allowed;
+}
+
+.topbar .top-navbar .navbar-header .navbar-brand .light-logo {
+    max-width: 100%;
+}
+
+.days-row {
+    display: flex;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.mt-40 {
+    margin-top: 40px !important;
+}
+
+.form-control:disabled~label {
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+.table.table_shedule_class_date td {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.isir-info label {
+    padding-right: 15px;
+}
+
+.sidebar-nav .dropdown-menu.show {
+    position: absolute;
+    top: 100% !important;
+
+}
+
+#instructor .dropdown-menu.show {
+    width: 100%;
+    display: flex;
+}
+
+#instructor .dropdown-item {
+    width: unset !important;
+}
+
+#instructor #sidebarnav {
+    position: relative !important;
+}
+
+#instructor .nav-item {
+    position: unset !important;
+}
+ul.business-logics {
+    list-style: none;
+    padding: 0;
+    font-size: 20px;
+    background: #0d0f10ba;
+    padding: 35px;
+    border-radius: 15px;
+    display: inline-block;
+    width: auto;
+}
+ul.business-logics li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+}
+ul.business-logics li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    background-image: url(../../icons/check.png);
+    height: 32px;
+    width: 32px;
+    background-repeat: no-repeat;
+}
+ul.business-logics ul {
+    margin-top: 15px;
+    list-style: none;
+    padding: 0;
+}
+ul.business-logics ul li:before {
+    background-image: url(../../icons/check-s.png);
+    height: 20px;
+    width: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.left-side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+.left-side-bar > li {
+    font-weight: 600;
+}
+.left-side-bar ul li {
+    position: relative;
+    padding-left: 35px;
+    font-weight: 400;
+    font-size: 13px;
+}
+.left-side-bar ul li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -2px;
+    background-image: url(../../icons/right-arrow.png);
+    height: 20px;
+    width: 25px;
+    background-repeat: no-repeat;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.text-cener {
+    text-align: center;
+}
+.left-abs-menu a {
+    color: #212529;
+}

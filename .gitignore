@@ -1,0 +1,47 @@
+#Ignore backend asets 
+/backend_assets/school/school_*
+/backend_assets/student/*
+backend_assets/help_image
+backend_assets/ticket_files
+backend_assets/school/user_image
+backend_assets/tmp_upload/*
+student/temp/*.txt
+student/temp/*.pdf
+#keep folder structure for backend assets 
+!/backend_assets/school/.gitkeep 
+!/backend_assets/student/.gitkeep 
+
+#ignore global tcpdf  
+/global/tcpdf/cache/*
+#keep folder structure 
+!/global/tcpdf/.gitkeep
+!/global/tcpdf/cache/.gitkeep
+
+#ignore school folder content
+/school/temp/*
+#keep temp folder
+!/school/temp/.gitkeep 
+
+#ignore all generated files, config files & s2 vendor
+*.zip
+*.pdf
+*.xlsx
+config.php
+global/config.php
+global/.env
+global/.env
+global/config.php
+global/tcpdf/cache
+global/s3-client-wrapper/vendor
+
+#dvb 30 01 2026
+vendor/
+node_modules/
+UAT-74-2/
+assets/phpmyadmin/
+nubo/
+_.git/
+phpmyadmin/
+global/
+/sql
+twilio/

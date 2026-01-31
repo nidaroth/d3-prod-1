@@ -1,0 +1,82 @@
+<? require_once("../global/config.php");
+if($_SESSION['PK_LANGUAGE'] == 1){
+	//English
+	define("ATTENDANCE_ENTRY_PAGE_TITLE", "Attendance Entry");
+	define("SELECT_COURSE_OFFERING", "Select Course Offering");
+	define("SCHEDULED_CLASS_MEETING", "Scheduled Class Meeting");
+	define("STUDENTS", "Student");
+	define("ATTENDANCE_HOURS", "Attendance Hours");
+	define("ATTENDANCE_CODE", "Attendance Code");
+	define("MARK_ATTENDANCE_COMPLETE", "Mark Attendance Complete");
+	define("MARKED_ATTENDANCE_AS_COMPLETED", "Marked Attendance as Completed");
+	define("COURSE_CODE", "Course Code");
+	define("SESSION", "Session");
+	define("SESSION_NO", "Session #");
+	define("SCHEDULED_CLASS_DATE", "Scheduled Class Date");
+	define("CLASS_START_TIME", "Class Start Time");
+	define("CLASS_END_TIME", "Class End Time");
+	define("STUDENT_ID", "Student ID");
+	define("COURSE_OFFERING", "Course Offering");
+	define("CLASS_DATE", "Class Date");
+	define("CLASS_HOUR", "Class Hours");
+	define("START_TIME", "Start Time");
+	define("END_TIME", "End Time");
+	define("ROOM_NO", "Room #");
+	define("INSTRUCTOR", "Instructor");
+	define("TERM_START", "Term Start");
+	define("ATTENDANCE", "Attendance");
+	define("TERM", "Term");
+	define("HOUR", "Hours");
+	define("CLASS_TIME", "Class Time");
+	define("UNITS", "Units");
+	define("ASSISTANT", "Assistant");
+	define("FA_UNITS", "FA Units");
+	define("UNPOST_ATTENDANCE", "Unpost Attendance");
+	define("SELECT_TERM", "Select Term");
+	define("ACTIVITY_TYPE", "Activity Type");
+	define("ENROLLMENT", "Enrollment");
+	
+	define("BY_TERM", "By Term");
+	define("BY_CLASS_DATE", "By Class Date");
+	define("SELECT_DATE", "Select Date");
+	
+} else if($_SESSION['PK_LANGUAGE'] == 2){
+	//Spanish
+	define("ATTENDANCE_ENTRY_PAGE_TITLE", "Attendance Entry");
+	define("SELECT_COURSE_OFFERING", "Select Course Offering");
+	define("SCHEDULED_CLASS_MEETING", "Scheduled Class Meeting");
+	define("STUDENTS", "Student");
+	define("ATTENDANCE_HOURS", "Attendance Hours");
+	define("ATTENDANCE_CODE", "Attendance Code");
+	define("MARK_ATTENDANCE_COMPLETE", "Mark Attendance Complete");
+	define("MARKED_ATTENDANCE_AS_COMPLETED", "Marked Attendance as Completed");
+	define("COURSE_CODE", "Course Code");
+	define("SESSION", "Session");
+	define("SESSION_NO", "Session #");
+	define("SCHEDULED_CLASS_DATE", "Scheduled Class Date");
+	define("CLASS_START_TIME", "Class Start Time");
+	define("CLASS_END_TIME", "Class End Time");
+	define("STUDENT_ID", "Student ID");
+	define("COURSE_OFFERING", "Course Offering");
+	define("CLASS_DATE", "Class Date");
+	define("CLASS_HOUR", "Class Hours");
+	define("START_TIME", "Start Time");
+	define("END_TIME", "End Time");
+	define("ROOM_NO", "Room #");
+	define("INSTRUCTOR", "Instructor");
+	define("TERM_START", "Term Start");
+	define("ATTENDANCE", "Attendance");
+	define("TERM", "Term");
+	define("HOUR", "Hours");
+	define("CLASS_TIME", "Class Time");
+	define("UNITS", "Units");
+	define("ASSISTANT", "Assistant");
+	define("FA_UNITS", "FA Units");
+	define("UNPOST_ATTENDANCE", "Unpost Attendance");
+	define("SELECT_TERM", "Select Term");
+	define("ACTIVITY_TYPE", "Activity Type");
+	define("ENROLLMENT", "Enrollment");
+	define("BY_TERM", "By Term");
+	define("BY_CLASS_DATE", "By Class Date");
+	define("SELECT_DATE", "Select Date");
+}

@@ -1,0 +1,212 @@
+<? require_once("../../global/config.php"); 
+
+$DATA = (file_get_contents('php://input'));
+
+$API_KEY = '';
+foreach (getallheaders() as $name => $value) {
+    //echo "$name: $value<br />";
+	if(strtolower(trim($name)) == 'apikey')
+		$API_KEY = trim($value);
+}
+
+$flag = 1;
+if($API_KEY == ''){
+	$data['SUCCESS'] = 0;
+	$data['MESSAGE'] = 'API Key Missing';
+	
+	$flag = 0;
+} else {
+	$res = $db->Execute("SELECT PK_ACCOUNT,ACTIVE FROM Z_ACCOUNT where API_KEY = '$API_KEY'");
+	if($res->RecordCount() == 0){
+		$data['SUCCESS'] = 0;
+		$data['MESSAGE'] = 'Invalid API Key';
+		
+		$flag = 0;
+	} else if($res->fields['ACTIVE'] == 0){
+		$data['SUCCESS'] = 0;
+		$data['MESSAGE'] = 'Your Account Is Blocked.';
+		
+		$flag = 0;
+	}
+	
+	$PK_ACCOUNT = $res->fields['PK_ACCOUNT'];
+}
+
+if($flag == 1){
+	$data['SUCCESS'] = 1;
+	$data['MESSAGE'] = '';
+
+	$res = $db->Execute("SELECT PK_COURSE_OFFERING,COURSE_CODE, S_COURSE_OFFERING.PK_COURSE, OFFICIAL_CAMPUS_NAME, S_CAMPUS.PK_CAMPUS, ROOM_NO, S_COURSE_OFFERING.PK_CAMPUS_ROOM, ATTENDANCE_TYPE, M_ATTENDANCE_TYPE.PK_ATTENDANCE_TYPE, INSTRUCTOR.PK_EMPLOYEE_MASTER, CONCAT(INSTRUCTOR.FIRST_NAME,' ',INSTRUCTOR.MIDDLE_NAME,' ',INSTRUCTOR.LAST_NAME) AS INSTRUCTOR_NAME, INSTRUCTOR.PK_EMPLOYEE_MASTER AS  INSTRUCTOR_ID, CONCAT(CODE,' - ',ATTENDANCE_CODE) as DEFAULT_ATTENDANCE_CODE, S_COURSE_OFFERING.PK_ATTENDANCE_CODE  as DEFAULT_ATTENDANCE_CODE_ID, DATE_FORMAT(BEGIN_DATE,'%m/%d/%Y') AS TERM_DATE, S_COURSE_OFFERING.PK_TERM_MASTER AS TERM_ID, S_COURSE_OFFERING.CLASS_SIZE, SESSION, SESSION_NO, S_COURSE_OFFERING.PK_SESSION, IF(S_COURSE_OFFERING.ACTIVE = 1,'Yes','No') as ACTIVE, OLD_DIAMOND_ID, COURSE_OFFERING_STATUS, S_COURSE_OFFERING.PK_COURSE_OFFERING_STATUS         
+	FROM S_COURSE_OFFERING 
+	LEFT JOIN M_COURSE_OFFERING_STATUS ON M_COURSE_OFFERING_STATUS.PK_COURSE_OFFERING_STATUS = S_COURSE_OFFERING.PK_COURSE_OFFERING_STATUS 
+	LEFT JOIN S_COURSE ON S_COURSE.PK_COURSE = S_COURSE_OFFERING.PK_COURSE 
+	LEFT JOIN S_CAMPUS ON S_CAMPUS.PK_CAMPUS = S_COURSE_OFFERING.PK_CAMPUS  
+	LEFT JOIN M_CAMPUS_ROOM ON M_CAMPUS_ROOM.PK_CAMPUS_ROOM = S_COURSE_OFFERING.PK_CAMPUS_ROOM 
+	LEFT JOIN M_ATTENDANCE_TYPE ON M_ATTENDANCE_TYPE.PK_ATTENDANCE_TYPE = S_COURSE_OFFERING.PK_ATTENDANCE_TYPE  
+	LEFT JOIN S_EMPLOYEE_MASTER AS INSTRUCTOR ON INSTRUCTOR.PK_EMPLOYEE_MASTER = S_COURSE_OFFERING.INSTRUCTOR  
+	LEFT JOIN M_ATTENDANCE_CODE ON M_ATTENDANCE_CODE.PK_ATTENDANCE_CODE = S_COURSE_OFFERING.PK_ATTENDANCE_CODE  
+	LEFT JOIN S_TERM_MASTER ON S_TERM_MASTER.PK_TERM_MASTER = S_COURSE_OFFERING.PK_TERM_MASTER  
+	LEFT JOIN M_SESSION ON M_SESSION.PK_SESSION = S_COURSE_OFFERING.PK_SESSION  
+	WHERE 
+	S_COURSE.PK_ACCOUNT = '$PK_ACCOUNT' ");
+	$i = 0;
+	while (!$res->EOF) { 
+		$PK_COURSE_OFFERING = $res->fields['PK_COURSE_OFFERING'];
+		$data['COURSE_OFFERING'][$i]['ID'] 							= $PK_COURSE_OFFERING;
+		$data['COURSE_OFFERING'][$i]['CAMPUS_NAME'] 				= $res->fields['OFFICIAL_CAMPUS_NAME'];
+		$data['COURSE_OFFERING'][$i]['OLD_DIAMOND_ID'] 				= $res->fields['OLD_DIAMOND_ID'];
+		$data['COURSE_OFFERING'][$i]['CAMPUS_ID'] 					= $res->fields['PK_CAMPUS'];
+		$data['COURSE_OFFERING'][$i]['COURSE_CODE'] 				= $res->fields['COURSE_CODE'];
+		$data['COURSE_OFFERING'][$i]['COURSE_CODE_ID'] 				= $res->fields['PK_COURSE'];
+		$data['COURSE_OFFERING'][$i]['TERM'] 						= $res->fields['TERM_DATE'];
+		$data['COURSE_OFFERING'][$i]['TERM_ID'] 					= $res->fields['TERM_ID'];
+		$data['COURSE_OFFERING'][$i]['SESSION'] 					= $res->fields['SESSION'];
+		$data['COURSE_OFFERING'][$i]['SESSION_ID'] 					= $res->fields['PK_SESSION'];
+		$data['COURSE_OFFERING'][$i]['SESSION_NO'] 					= $res->fields['SESSION_NO'];
+		$data['COURSE_OFFERING'][$i]['ROOM_NO'] 					= $res->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['ROOM_ID'] 					= $res->fields['PK_CAMPUS_ROOM'];
+		$data['COURSE_OFFERING'][$i]['INSTRUCTOR_NAME'] 			= $res->fields['INSTRUCTOR_NAME'];
+		$data['COURSE_OFFERING'][$i]['INSTRUCTOR_ID'] 				= $res->fields['INSTRUCTOR_ID'];
+		$data['COURSE_OFFERING'][$i]['ASSISTANT_NAME'] 				= $res->fields['ASSISTANT_NAME'];
+		$data['COURSE_OFFERING'][$i]['ASSISTANT_ID'] 				= $res->fields['ASSISTANT_ID'];
+		$data['COURSE_OFFERING'][$i]['ATTENDANCE_TYPE'] 			= $res->fields['ATTENDANCE_TYPE'];
+		$data['COURSE_OFFERING'][$i]['ATTENDANCE_TYPE_ID'] 			= $res->fields['PK_ATTENDANCE_TYPE'];
+		$data['COURSE_OFFERING'][$i]['DEFAULT_ATTENDANCE_CODE'] 	= $res->fields['DEFAULT_ATTENDANCE_CODE'];
+		$data['COURSE_OFFERING'][$i]['DEFAULT_ATTENDANCE_CODE_ID'] 	= $res->fields['DEFAULT_ATTENDANCE_CODE_ID'];
+		$data['COURSE_OFFERING'][$i]['CLASS_SIZE'] 					= $res->fields['CLASS_SIZE'];
+		$data['COURSE_OFFERING'][$i]['STATUS'] 						= $res->fields['COURSE_OFFERING_STATUS'];
+		$data['COURSE_OFFERING'][$i]['STATUS_ID'] 					= $res->fields['PK_COURSE_OFFERING_STATUS'];
+		
+		$res_det = $db->Execute("SELECT * FROM S_COURSE_OFFERING_SCHEDULE WHERE PK_COURSE_OFFERING = '$PK_COURSE_OFFERING' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['SCHEDULE_ON_HOLIDAY']		= $res_det->fields['SCHEDULE_ON_HOLIDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['OVERWRITE_SCHEDULE_DATE'] = $res_det->fields['OVERWRITE_SCHEDULE_DATE'];
+		
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['SCHEDULE_ON_HOLIDAY'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['SCHEDULE_ON_HOLIDAY'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['SCHEDULE_ON_HOLIDAY'] = 'No';
+			
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['OVERWRITE_SCHEDULE_DATE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['OVERWRITE_SCHEDULE_DATE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['OVERWRITE_SCHEDULE_DATE'] = 'No';
+		
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['DEFAULT_SCHEDULE']['START_DATE']	= $res_det->fields['START_DATE'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['DEFAULT_SCHEDULE']['END_DATE']	= $res_det->fields['END_DATE'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['DEFAULT_SCHEDULE']['START_TIME']	= $res_det->fields['DEF_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['DEFAULT_SCHEDULE']['END_TIME']	= $res_det->fields['DEF_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['DEFAULT_SCHEDULE']['HOURS']		= $res_det->fields['DEF_HOURS'];
+		
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['SUN_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['HAS_SCHEDULE']	= $res_det->fields['SUNDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['START_TIME']		= $res_det->fields['SUN_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['END_TIME']		= $res_det->fields['SUN_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['HOURS']			= $res_det->fields['SUN_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['ROOM_ID']		= $res_det->fields['SUN_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SUNDAY']['HAS_SCHEDULE'] = 'No';
+		
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['MON_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['HAS_SCHEDULE']	= $res_det->fields['MONDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['START_TIME']		= $res_det->fields['MON_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['END_TIME']		= $res_det->fields['MON_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['HOURS']			= $res_det->fields['MON_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['ROOM_ID']		= $res_det->fields['MON_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['MONDAY']['HAS_SCHEDULE'] = 'No';
+			
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['TUE_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['HAS_SCHEDULE']	= $res_det->fields['TUESDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['START_TIME']	= $res_det->fields['TUE_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['END_TIME']		= $res_det->fields['TUE_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['HOURS']			= $res_det->fields['TUE_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['ROOM_ID']		= $res_det->fields['TUE_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['TUESDAY']['HAS_SCHEDULE'] = 'No';	
+			
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['WED_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['HAS_SCHEDULE']	= $res_det->fields['WEDNESDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['START_TIME']		= $res_det->fields['WED_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['END_TIME']		= $res_det->fields['WED_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['HOURS']			= $res_det->fields['WED_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['ROOM_NO']			= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['ROOM_ID']			= $res_det->fields['WED_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['WEDNESDAY']['HAS_SCHEDULE'] = 'No';		
+			
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['THU_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['HAS_SCHEDULE']	= $res_det->fields['THURSDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['START_TIME']	= $res_det->fields['THU_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['END_TIME']		= $res_det->fields['THU_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['HOURS']		= $res_det->fields['THU_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['ROOM_ID']		= $res_det->fields['THU_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['THURSDAY']['HAS_SCHEDULE'] = 'No';		
+			
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['FRI_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['HAS_SCHEDULE'] 	= $res_det->fields['FRIDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['START_TIME']	 	= $res_det->fields['FRI_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['END_TIME']	 	= $res_det->fields['FRI_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['HOURS']		 	= $res_det->fields['FRI_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['ROOM_ID']		= $res_det->fields['FRI_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['FRIDAY']['HAS_SCHEDULE'] = 'No';	
+			
+		$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['SAT_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['HAS_SCHEDULE']	= $res_det->fields['SATURDAY'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['START_TIME']	= $res_det->fields['SAT_START_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['END_TIME']		= $res_det->fields[' SAT_END_TIME'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['HOURS']		= $res_det->fields['SAT_HOURS'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['ROOM_NO']		= $res_room->fields['ROOM_NO'];
+		$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['ROOM_ID']		= $res_det->fields['SAT_ROOM'];
+		if($data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['HAS_SCHEDULE'] == 1)
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['HAS_SCHEDULE'] = 'Yes';
+		else
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['WEEKLY_SCHEDULE']['SATURDAY']['HAS_SCHEDULE'] = 'No';
+		
+		$j = 0;
+		$res_det = $db->Execute("select * from S_COURSE_OFFERING_SCHEDULE_DETAIL WHERE PK_COURSE_OFFERING = '$PK_COURSE_OFFERING' AND PK_ACCOUNT = '$PK_ACCOUNT' ORDER BY SCHEDULE_DATE ASC, START_TIME ASC");
+		while (!$res_det->EOF) {
+			$res_room = $db->Execute("SELECT ROOM_NO FROM M_CAMPUS_ROOM WHERE PK_CAMPUS_ROOM = '".$res_det->fields['PK_CAMPUS_ROOM']."' AND PK_ACCOUNT = '$PK_ACCOUNT' "); 
+			
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['DATE']		= $res_det->fields['SCHEDULE_DATE'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['START_TIME']= $res_det->fields['START_TIME'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['END_TIME']	= $res_det->fields['END_TIME'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['HOURS']		= $res_det->fields['HOURS'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['ROOM_NO']	= $res_room->fields['ROOM_NO'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['ROOM_ID']	= $res_det->fields['PK_CAMPUS_ROOM'];
+			$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['COMPLETED']	= $res_det->fields['COMPLETED'];
+			
+			if($data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['COMPLETED'] == 1)
+				$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['COMPLETED'] = 'Yes';
+			else
+				$data['COURSE_OFFERING'][$i]['SCHEDULE']['DAILY_SCHEDULE'][$j]['COMPLETED'] = 'No';
+			
+			$j++;
+			$res_det->MoveNext();
+		}
+		
+		$i++;
+		$res->MoveNext();
+	}
+}
+
+$data = json_encode($data);
+echo $data;
