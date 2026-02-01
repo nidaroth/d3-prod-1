@@ -27,12 +27,13 @@ require_once("check_access.php");
 // 	"Post 9/11 GI Bill Benefits",
 // 	"Department of Defense Tuition Assistance Program"
 $tooltips =  array(
+	'Part A 01 Ledger Codes' => 'Grants or scholarships from the federal government, state/local government, or the institution (Do NOT include student loans)',
 	'Part A 06 Ledger Codes' => 'Federal Work Study, loans to students, grant or scholarship aid from the federal government, state/local government, the institution, or other sources known to the institution',
 	'Part A 07 Ledger Codes' => 'Loans to students or grant or scholarship aid from the federal government, state/local government, or the institution',
 	'Part A 08 Ledger Codes' => 'Grant or scholarship aid from the federal government, state/local government, or the institution',
 	'Part A 08 / Part E 02 Ledger Codes' => 'Grant or scholarship aid from the federal government, state/local government, or the institution',
-	'Part B 01 Ledger Codes' => 'Grant or scholarship aid from the federal government, state/local government, the institution, and other sources known to the institution (Do NOT include federal student loans)',
-	'Part B 03 Ledger Codes' => 'Federal loans to students',
+	'Part B 01 Ledger Codes' => 'Grant or scholarship aid from other sources known to the institution (Do NOT include student loans)',
+	'Part B 03 Ledger Codes' => 'State/local government grant or scholarship aid (includes fellowships, waivers, and employee exemptions)',
 	'Part C 01 Ledger Codes' => 'Grants or scholarships from the federal government, state/local government, or the institution',
 	'Part C 02 Ledger Codes' => 'Federal grants and scholarship aid',
 	'Part C 04 Ledger Codes' => 'Other federal grants and scholarship aid',
@@ -46,6 +47,7 @@ $tooltips =  array(
 );
 
 $LEDGER_CODES_FIELDS_LIST = [
+	"Part A 01 Ledger Codes",
 	"Part A 06 Ledger Codes",
 	"Part A 07 Ledger Codes",
 	"Part A 08 Ledger Codes",
