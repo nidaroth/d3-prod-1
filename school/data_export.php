@@ -5,7 +5,8 @@ require_once("../language/menu.php");
 require_once("check_access.php");
 
 // dvb 29 10 25
-if($_SESSION['PK_ACCOUNT'] != 63){
+$allowed_accounts = [63, 64, 72];
+if(!in_array($_SESSION['PK_ACCOUNT'], $allowed_accounts)){
     header("location:../school");
 }
 

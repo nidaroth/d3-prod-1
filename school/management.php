@@ -245,10 +245,10 @@ $res_add_on = $db->Execute("SELECT GUESTVISION,OEDS,ACCET,ACICS,ABHES,ACCSC,NACC
                                                 <!-- <li><a href="manage_custom_queries"><?= MNU_CUSTOM_QUERIES ?></a></li> -->
                                                 <? if (check_access('SETUP_DATA_EXPORT') == 1) // DIAM-2177
                                                    { ?>
-                                                       <?php if ($_SESSION['PK_ACCOUNT'] == 63) { ?>
+                                                       <?php if (in_array($_SESSION['PK_ACCOUNT'], [63, 64, 72])) { ?>
                                                            <li><a href="data_export"><?= DATA_EXPORT ?></a></li>
                                                        <?php } ?>
-                                                    
+
                                                 <? } ?>
                                             </ul>
                                         </div>
