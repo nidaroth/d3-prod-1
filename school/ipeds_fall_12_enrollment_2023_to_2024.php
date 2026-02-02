@@ -246,7 +246,7 @@ if (!empty($_POST)) {
 		/// dvb 29 01 2025
 		$PROCEDURE = 'COMP20009_NEW';
 		$query_call = "CALL $PROCEDURE( '$PK_ACCOUNT' , '$PK_CAMPUS' , '$START_DATE' , '$END_DATE' , '$SURVEY_NAME' )";
-		// echo $query_call;exit;
+		echo $query_call;exit;
 		$results_r = $db->Execute($query_call);
 		$HEADERS = array_keys($results_r->fields);
 		while (!$results_r->EOF) {
