@@ -231,7 +231,7 @@ if (!empty($_POST)) {
 		}
 	} else if ($SURVEY_NAME == 'Outcome Measure') {
 		$PROCEDURE = 'COMP20008_NEW';
-		echo $query_call = "CALL $PROCEDURE( '$PK_ACCOUNT' , '$PK_CAMPUS' , '$START_DATE' , '$END_DATE' , '$SURVEY_OPTION' )"; exit;
+		 $query_call = "CALL $PROCEDURE( '$PK_ACCOUNT' , '$PK_CAMPUS' , '$START_DATE' , '$END_DATE' , '$SURVEY_OPTION' )"; exit;
 		$results_r = $db->Execute($query_call);
 		$HEADERS = array_keys($results_r->fields);
 		while (!$results_r->EOF) {
